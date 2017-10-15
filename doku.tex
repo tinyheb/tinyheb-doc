@@ -1,0 +1,563 @@
+% $Id: doku.tex,v 1.25 2010/08/10 08:18:00 baum Exp $
+% Tag $Name: tinyheb-1-6-3 $
+
+
+% Copyright (C) 2004 - 2013 Thomas Baum <thomas.baum@arcor.de>
+% Thomas Baum, 42719 Solingen, Germany
+
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+\documentclass [a4paper,totoc] {scrreprt}
+%\documentclass [a4paper,bibtotoc,oneside] {scrbook}
+%\documentclass [a4paper] {report}
+%\setlength\parindent{0pt}
+\usepackage{makeidx}
+\usepackage{ae}
+\usepackage{mathptmx} 
+%\usepackage {times}
+\title {\textit{tinyHeb}\/ Dokumentation\\Version 1.3.0}
+\author {Thomas Baum\\Solingen\\Germany}
+\date {Copyright \copyright \today}
+\usepackage {ngerman}
+\usepackage [T1]{fontenc} 
+\usepackage [latin1] {inputenc}
+\usepackage {array} 
+\usepackage [german]{varioref}
+\usepackage [pdftex]{graphicx}
+\usepackage {tabularx}
+\usepackage {supertabular}
+\usepackage {caption}
+%\usepackage [dvips]{graphicx}
+\usepackage {paralist}
+\usepackage {float}
+%\usepackage {perpage}
+%\MakePerPage{footnote}
+\graphicspath{{./jpg/}}
+%\DeclareGraphicsRule{*}{jpg}
+\DeclareGraphicsExtensions{.pdf,.jpg,.ps}
+%
+% selbst definierte Befehle
+\newcommand\knopf[1]{\texttt{#1}}
+\newcommand\feld[1]{\textsc{#1}}
+\newcommand\myHeb{\textit{tinyHeb}{}\/}
+\newcommand\tinyHeb{\textit{tinyHeb}{}\/}
+\makeindex
+\usepackage {hyperref}
+\begin{document}
+\nocite{*}
+\maketitle[1]
+\begin {abstract}
+In diesem Dokument sind die Funktionsweise des Programmes \tinyHeb,
+die Entstehungsgeschichte und Installationshinweise beschrieben.
+
+Das Programm ist freie Software. Sie können es unter den Bedingungen der GNU
+General Public License, wie von der Free Software Foundation veröffentlicht,
+weitergeben und/oder modifizieren, entweder gemäß Version 2 der Lizenz oder
+(nach Ihrer Option) jeder späteren Version.
+
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen
+von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite
+Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK.
+Deteils finden Sie in der GNU General Public License.
+
+Für Fehler in diesem Handbuch oder Fehler die aus der Benutzung des
+Handbuches entstehen, wird keine Haftung übernommen.
+\end {abstract}
+\tableofcontents
+
+%\frontmatter
+
+\chapter{Entstehungsgeschichte\label{entstehungsgeschichte:kap}}
+Wie bei fast allen anderen Hebammenabrechnungsprogrammen, war auch hier die Lebenspartnerin Auslöser.
+Im November 2003 erstellte meine Freundin\footnote{seit dem 20.05.06 ist meine Freundin nicht mehr meine Freundin, sondern meine Frau}
+ihre Abrechnungen gegenüber den Krankenkassen
+immer noch auf Papiervordrucken. Wie man sich leicht vorstellen kann,
+führte das u.a. bei der Berechnung des Kilometergeldes und der Ermittlung des
+Wochentages zu Problemen. Die Wochentage sind natürlich nur dann ein
+Problem, wenn man die Rechnung erst Wochen oder gar Monate nach der 
+Leistungserbringung schreibt. Auch ist die Berechnung der Dauer bei 
+bestimmten Leistungen, wie z.B. Hilfe bei Schwangerschaftsbeschwerden
+zeitaufwendig, weil gerechnet werden muss.
+
+Naheliegend war natürlich, entweder ein Programm zu kaufen oder auf Freeware
+zurückzugreifen. Auf dem Markt waren zu diesem Zeitpunkt zwei Programme 
+erhältlich.
+Leider sind beide Programme nicht für Linux erhältlich. 
+Also musste selber ein Programm geschrieben werden, so entstand \tinyHeb.
+
+\section{erster Versuch}
+Im November 2003 ging es an die Konzeptionierung, Datenstrukturen und
+Datenbanktabellen wurden designed. Die Spezifikation der Anforderungen 
+durch meine Freundin gestaltete sich dabei recht schwierig, da sie zu
+diesem Zeipunkt ca. 500 Km von mir entfernt wohnte.
+Trotzdem enstanden mit HTML und perl erste Masken, in denen Stammdaten
+und Abrechnungsdaten erfasst werden konnten.
+
+Das Ergebnis entsprach leider überhaupt nicht den Anforderungen meines
+``Kunden''. Es sollte eigentlich alles genauso sein, wie auf den
+Papiervordrucken, nur dass jetzt Gesamtsummen, das Wegegeld und die Zeiten
+automatisch berechnet werden sollten. Auch die entgültige Rechnung sollte
+genauso aussehen, wie bei den Papierrechnungen\footnote{Das ist nach Meinung des Authors typisch für Softwareentwicklungsprojekte, bestehende Prozesse sollen sich nicht ändern.}.
+Da mir solche Anforderungen von der Arbeit her bekannt waren und ich privat 
+nicht die gleichen Diskussionen führen wollte, die ich beruflich führen muss,
+wurde die Entwicklung im März 2004 eingestellt. Zum Glück habe ich nicht
+alle Daten gelöscht, sondern sie verblieben im CVS Repository.
+
+\section{zweiter Versuch}
+Im März 2005 stellte meine Freundin ``plötzlich'' fest, dass ihre
+Papierabrechnungen nicht mehr von den Krankenkassen akzeptiert werden.
+Sie wollte jetzt ein kommerzielles Programm kaufen. Der Preis
+erschien mir sehr teuer und ich war mir nicht sicher, ob die ganze Sache
+mit wine auch wirklich unter Linux läuft.
+
+Die Evaluierungsphase war dann recht kurz. Mit qemu und einer Win95
+Installation konnte getestet werden und welche Überraschung, die Erfassung
+und auch der Rechnungsdruck sahen so aus, wie ich mir das im März 2004
+vorgestellt hatte.
+Also ging die Entwicklung an der Stelle weiter wo ich 2004 aufgehört hatte.
+Es konnten wesentliche Teile der Software wiederverwendet werden. Inbs.
+die Zugriffsroutinen auf die Datenbank, die Erfassungsmaske für die 
+Frauenstammdaten und Feiertage.
+
+\section{dritter Teil}
+Anfang Oktober 2005 überraschte mich meine Freundin mit der Nachricht, dass
+ab Januar 2006 die Abrechnungen elektronisch an die Krankenkassen zu melden
+sind. Super, gerade hatte ich wesentliche Teile der Software fertig und
+jetzt elektronischer Datenaustausch. Also ging es am \date{03.10.2005} daran
+die Spezifikation für den Datenaustausch per E-Mail zu besorgen. Die
+komplette Spezifikation \cite{richtliniendatenaustausch},\cite{anlage1}
+füllt ca. einen Aktenordner. Leider ist es wie bei
+vielen Spezifikationen, es bleiben einige Fragen offen. Diese Fragen wurden
+mir vom RZ der AOK Rheiland beantwortet. Den Kollegen an dieser Stelle
+meinen ausdrücklichen Dank, sonst hätte ich es wohl nie geschafft. Mitte
+Oktober war es möglich, die ersten Rechnungen im Edifact Format zu generieren.
+Das ist für den Datenaustausch natürlich nicht ausreichend, da die Daten
+verschlüsselt werden müssen. Die Verschlüsselung wurde zum größten Problem
+im Rahmen der Entwicklung. Insb. bei der Kommunikation mit dem Rechenzentrum
+wurden gleiche Begriffe unterschiedlich interpretiert. Ende Oktober 2005
+war das Problem dann klar, die Daten müssen PKCS\#7 verschlüsselt werden.
+Die AOK war aber erst ab November in der Lage Daten, die mit PKCS\#7
+verschlüsselt wurden wieder zu entschlüsseln. Ab Januar 2006 konnten endlich
+echte Daten in der Erprobungsphase ausgetauscht werden und heute (Juni 2008)
+sind alle Datenannahmestellen an die Software angeschlossen.
+Die Zertifizierung der AOK Rheinland liegt seit dem 12.05.2006, die
+des ARZ-Emmendingen seit dem 29.08.2006 und der AOK Bayern seit dem
+05.06.2007 vor. Bei anderen Datenannahmestellen hat es meine Frau noch nicht
+bis zum Echtbetrieb geschafft, das liegt aber vor allem daran, dass zu
+wenig Rechnungen an die entsprechenden Datenannahmestellen geschickt werden
+oder die Datenannahmestelle selbst noch nicht in der Lage ist Rechnungen
+im Echtbetrieb entgegen zu nehmen.
+
+Falls es Problem mit dem Datenaustausch unter \tinyHeb\/ geben sollte,
+hängen diese in der Regel mit der eigentümlichen Verarbeitung einzelner
+Datenannahmestellen zusammen, insb. bei verschlüsselten und signierten 
+Rechnungen.
+
+An dieser Stelle soll nicht auf alle
+Probleme, die es mit dem Anschluss einer Datenannahmestelle gibt eingegangen
+werden. Im Kapitel \vref{parameter:kap} wird im Detail beschrieben, welche
+Einstellungen vorzunehmen sind. Weiterhin wird im Anhang
+\vref{anhang:elekrech} aufgezeigt, wie man besonders
+schnell zum Datenaustausch zugelassen wird, und warum das ganze nichts
+kostet.
+
+\section{Über dieses Handbuch}
+Um mit \tinyHeb\/ arbeiten zu können, ist es nicht notwendig, das Handbuch
+komplett
+von vorne nach hinten zu lesen. Das Handbuch soll eher als Nachschlagewerk
+dienen, wenn man an der einen oder anderen Stelle ein Problem hat.
+
+Trotzdem ist es notwendig, einige Kapitel des Handbuches zu lesen, wenn
+man mehr als ``Spielrechnungen'' produzieren möchte. 
+
+Eine kurze Zusammenfassung der Kapitel soll das Auffinden der für den
+Leser/ Leserin wesentlichen Teile erleichtern.
+
+\paragraph{}
+In Kapitel \ref{entstehungsgeschichte:kap}, 
+\textit{Entstehungsgeschichte} sind die Motivation für 
+\tinyHeb\/, aber auch die Probleme, die mit der 
+Entwicklung von \tinyHeb\/ verbunden waren, beschrieben.
+\paragraph{}
+
+In Kapitel \ref{installation:kap}, \textit{Installation} finden sich 
+Hinweise zur Installation von \tinyHeb\/ aus den Sourcen. Falls man
+\tinyHeb\/ mit Hilfe der RPM Pakete installiert hat, ist es nicht
+notwendig das gesamte Kapitel zu lesen. Statt dessen kann man direkt 
+bei Abschnitt \ref{einleitung:parameter:kap}, \textit{Parameter} mit
+dem Lesen beginnen. Dort ist u.a. beschrieben, wie Name, Anschrift,
+IK-Nummer der Hebamme, usw. in \tinyHeb\/ hinterlegt werden, aber auch wie 
+eingestellt wird, dass nach der korrekten Gebührenordnung abgerechnet wird.
+\paragraph{}
+
+In Kapitel \ref{Kurzanleitung}, \textit{Kurzanleitung} sind die
+wesentlichen Schritte beschrieben, um mit \tinyHeb\/ schnell eine
+Rechnung zu produzieren. Dieses Kapitel sollte gelesen werden.
+\paragraph{}
+
+In Kapitel \ref{anleitung}, \textit{Anleitung} sind alle Details,
+Masken, Plausibilitätenprüfungen, usw. von \tinyHeb\/ beschrieben. 
+Dieses Kapitel muss nicht in gänze gelesen werden, hilft aber weiter, wenn man
+alle Features des Programms nutzen möchte. Es eignet sich insb. als
+Nachschlagewerk, wenn es Probleme geben sollte.
+\paragraph{}
+
+In Kapitel \ref{parameter:kap}, \textit{Parameter} sind alle
+Parameter beschrieben, die es in \tinyHeb\/ gibt. Wichtig sind dabei
+der Abschnitt \ref{parm:heb:abs}, \textit{Angaben zur Hebamme},
+Abschnitt \ref{datenannahmestellen:abs}, \textit{Datenannahmestellen}
+und der Abschnitt \ref{feiertage:abs}, \textit{Feiertage}.
+
+Im Abschnitt \textit{Angaben zur Hebamme} sind alle Daten zur
+Hebamme beschrieben, die wichtig sind, um eine korrekte Rechnung zu
+produzieren.
+
+Im Abschnitt \textit{Datenannahmestellen} sind alle Parameter
+beschrieben, die für den elektronischen Datenaustausch benötigt werden.
+Wie eine neue Datenannahmestelle parametrisiert werden muss und welche
+Werte zu ändern sind, wenn man z.B. von der Erprobungsphase in den 
+Echtbetrieb wechselt.
+
+Im Abschnitt \textit{Feiertage} wird gezeigt, wie neue Feiertage
+in \tinyHeb\/ eingepflegt werden können.
+\paragraph{}
+
+Im Anhang in Kapitel \ref{anhang:elekrech}, 
+\textit{Anmeldung zum E-Mail Verfahren}
+findet sich eine Beschreibung, wie man bei den einzelnen Krankenkassen
+zum elektronischen Abrechnungsverfahren zugelassen wird. Dieser Abschnitt
+sollte gelesen werden, wenn man Rechnungen elektronisch verschicken möchte.
+\paragraph{}
+
+Im Anhang in Kapitel \ref{anhang:aktkk}, 
+\textit{Aktualisierung der Krankenkassendaten} ist
+beschrieben, wie sich die Anschriftendaten auf Basis der Kostenträgerdateien
+aktualisieren lassen. Dieser Abschnitt muss erst am Ende eines Quartals
+gelesen werden oder wenn man sich wundert, warum eine Krankenkasse in 
+\tinyHeb\/ nicht existiert, bzw. die Rechnung von der Krankenkasse mit
+dem Vermerk ``wir sind nicht zuständig'' abgelehnt wird.
+\paragraph{}
+
+Im Anhang in Kapitel \ref{anhang:provider},
+\textit{zusätzliche Provider im elektronischen
+Datenaustausch} wird gezeigt, wie \tinyHeb\/ parametrisiert werden muss, damit
+E-Mails über den Internet-Provider verschickt werden können und wie vorzugehen
+ist, wenn mehr
+als ein E-Mail Provider benötigt wird. Windows Nutzer sollten dieses
+Kapitel in jedem Fall lesen, unter Linux ist das Kapitel nur notwendig,
+wenn es Probleme mit dem E-Mail Versand der Rechnung gibt.
+\paragraph{}
+
+Im Anhang in Kapitel \ref{anhang:eigenes_cert},
+\textit{Ein eigenes Zertifikat} befindet sich die Beschreibung,
+wie eine Zertifikatsanfrage generiert wird und das Zertifikat in
+\tinyHeb\/ eingebunden wird. Ein solches Zertifikat wird für den 
+Datenaustausch bei einigen Datenannahmestellen\footnote{u.a. Inter-Forum Systems, Syntela und Medent} \index{Datenannahmestellen}
+benötigt.
+\paragraph{}
+
+Bei meiner Frau und mir gibt es folgende Arbeitsteilung bzgl. der
+Rechnungen. Meine Frau erfasst die Rechnungen, ich bin für die
+Parametrisierung des Programms und die Kommunikation mit 
+den Datenannahmestellen
+zuständig. Sollte dies bei Euch so ähnlich sein, gilt folgender Tipp
+für die Arbeit mit dem Handbuch: Die Hebamme sollte das Kapitel 
+\ref{anleitung}, \textit{Anleitung} lesen, ihr Mann/ Lebensgefährte/
+Freund die anderen oben
+als wichtig gekennzeichneten Kapitel.
+
+
+\section{Danksagungen}
+Wie in jedem Handbuch soll auch hier dieses Kapitel nicht fehlen. Ohne
+Hilfe wäre \tinyHeb\/ nicht das geworden, was es heute ist.
+
+Besonders bedanken muss ich mich natürlich bei meiner Frau Marlies, die
+sehr viel Geduld mit mir hat, insb. wenn ich 
+viele Stunden vor dem Rechner sitze, weil ich neue Funktionalitäten
+einbaue oder ich mich mit den Fragen und Problemen
+der Nutzer und Nutzerinnen beschäftige.
+Abgesehen davon, war sie die erste Nutzerin und testet auch heute noch die
+Anwendung als erste. Auf viele Plausibilitätenprüfungen wäre ich ohne
+ihre Hilfe nicht gekommen.
+
+Dann sind die Mitarbeiter des RZ der AOK Rheinland zu erwähnen,
+die mir sehr freundlich viele Fragen beantwortet haben. Namentlich sind
+dies die Herren B. und Z.
+
+Mit dem ARZ-Emmendingen habe ich alle Konstellationen der Verschlüsselung
+und Signierung getestet. Ich bin jedesmal begeistert, wie schnell und
+freundlich auf Fragen reagiert wird. Hier sind die Herren G. und S.
+besonders zu erwähnen.
+
+Die Leser der Newsgroup \verb|de.comp.os.unix.linux.misc| haben mich dazu
+gebracht \tinyHeb\/ überhaupt zu veröffentlichen. Darunter war u.a.
+Rolf aus Jülich.
+
+Rolf und seine Frau waren die ersten Nutzer überhaupt, die
+beiden mussten die meisten Fehler aushalten, da sie \tinyHeb\/ schon
+seit März 2006 benutzen.
+
+Heiner aus Hannover war einer der ersten Windows Nutzer (wenn nicht der
+Erste) und hat die Installationsanleitung für Windows geschrieben.
+
+Katrin hat mich auf wesentliche Fehler des setups unter Windows Vista 
+hingewiesen\footnote{das Stand Juni 2008 immer noch alles andere als
+perfekt ist} und als Alpha Testerin fungiert.
+
+Es gibt noch viele weitere zu erwähnen, wie z.B. Bernhard, der
+unermüdlich mit Krankenkassen und Datenannahmestellen telefoniert. Aber
+irgendwann muss es auch mit den Danksagungen gut sein.
+
+Last but not least gilt mein Dank allen Nutzern und Nutzerinnen, 
+die mich auf
+Fehler in der Anwendung hingewiesen und Verbesserungsvorschläge gemacht
+haben. Ohne Euch wäre die Anwendung nicht das, was sie heute ist.
+
+%\section{verwendete Konventionen}
+
+
+%\mainmatter
+
+\chapter{Installation\label{installation:kap}}
+Für die Installation auf einem Linux Rechner sind einige Komponenten
+Vorraussetzung. Diese sollten aber in jeder Distribution vorhanden sein.
+Die hier vorliegene Beschreibung bezieht sich auf SuSE
+Linux, sollte aber bei jeder anderen Distribution ähnlich funktionieren. 
+Eine Installation auf einem Windows \index{Windows} System ist problemlos 
+möglich und ausführlich in \cite{installation_windows} beschrieben.
+
+\begin{itemize}
+\item Ein Webserver, z.B. Apache
+\item perl
+\item mysql
+\item ghostview (gv) um sich die Rechnungsvorschau im Browser anzusehen
+\item OpenSSL, wenn elektronischer Datenaustausch gewünscht ist.
+\end{itemize}
+%
+\section {Kopieren der Scripte}
+Nachdem man den Tar-Ball aus dem Internet geladen und entpackt hat, müssen
+die Scripte noch an die ``richtige'' Stelle kopiert werden. Dazu
+einfach als root \verb|make install| eingeben. Danach ist es nur noch 
+notwendig fehlende Perl Module zu installieren und die Datenbank
+zu initialisieren. Dies ist in den nachfolgenden Abschnitten beschrieben.
+
+\section {Anpassen Apache Konfiguration}
+Die Apache \index{Apache} Konfiguration wird durch das 
+Makefile \index{Makefile} automatisch an die
+richtige Stelle im Verzeichnisbaum kopiert. Danach ist ein Neustart
+des Webservers notwendig. Wer die Anpassung per Hand vornehmen möchte,
+muss wie unten beschrieben vorgehen:
+\begin {enumerate}
+%\item Das Modul \verb|mod_perl.so| muss geladen werden, dies kann über Yast gemacht werden.
+\item Kopieren der Datei \verb|tinyheb.conf| aus dem Verzeichnis apache2\\
+nach \verb|/etc/apache2/conf.d/|
+\item den Apache Server mit \verb|rcapache2 restart| (SuSE Linux) oder\\
+\verb|sudo /etc/init.d/apache2 restart| (Debian) neu starten.
+%\begin{verbatim}
+%Alias /tinyheb/  ''/srv/www/cgi-bin/tinyheb/''
+%\end{verbatim}
+%
+%\item Setzen der Direktiven in der Datei /etc/apache2/default-server.conf
+%\begin{verbatim}
+%<Directory /srv/www/cgi-bin/tinyheb>
+%        AllowOverride None
+%        Options -Indexes +ExecCGI +FollowSymLinks
+%        AddHandler cgi-script pl
+%        Order allow,deny
+%        Allow from all
+%</Directory>
+%\end{verbatim}
+\end {enumerate}
+%
+%\pagebreak[4]
+\section{Perl}
+Es werden einige Perl \index{Perl} Module benötigt, die ggf. nicht 
+installiert sind.
+Die meisten dieser Module sollten in der Distribution enthalten sein. Ansonsten
+über den entsprechenden Paketmanager oder bei CPAN herunterladen.
+\begin {enumerate}
+\item DBI\index{DBI}
+\item Date::Calc\index{Date::Calc}
+\item CGI\index{CGI}
+\item PostScript::Simple\index{PostScript::Simple}
+\item File::stat und MIME::QuotedPrint falls elektronische Rechnungen
+gewünscht sind.
+\item Tk, Tk::BrowseEntry, Tk::HList, Tk::ItemStyle, Mail::Sender, falls
+die elektronischen Rechnungen mit grafischer Oberfläche verschickt werden
+sollen.
+\item Crypt::OpenSSL::X509 (optional) für eine verbesserte Performance beim
+Einlesen von Zertifikaten.\index{Crypt::OpenSSL::X509}
+\end {enumerate}
+%
+\section {MySQL}
+Auch MySQL \index{MySQL} sollte in der Distribution enthalten sein, 
+wenn noch nicht installiert, muss das nachgeholt werden. 
+%Wichtig ist es einen Benutzer
+%anzulegen, der Zugriff auf die benötigten Tabellen und die Datenbank hat.
+%Hier gibt es verschiedene Tools (z.B. mysql-administrator) oder auch aus
+%der Kommandozeile. Dieser Benutzer muss auf die Datenbank PRD\_Hebamme 
+%zugreifen können und die Rechte haben Tabellen anlegen zu dürfen. Der
+%Benutzer sollte wwwrun heissen, wenn man nicht die Datei Heb.pm anpassen
+%möchte. In der aktuellen Version ist der Benutzer wwwrun ohne Passwort
+%anzulegen, wer das nicht möchte, kann in der Datei Heb.pm das notwendige
+%Passwort hinterlegen.
+
+Im Verzeichnis DATA befindet sich ein SQL Script mit dem alle Tabellen
+und ein technischer User mit den notwendigen Zugriffsrechten
+angelegt und initialisiert werden: init.sql
+\paragraph{}
+Mit \verb|mysql -u root < init.sql| werden die nötigen Tabellen und der
+technische Nutzer angelegt.
+
+Bei einem Update der Software muss das Skript: \verb|update.pl|
+ausgeführt werden
+%
+\section{Parameter\label{einleitung:parameter:kap}}
+Jetzt müssen noch einige Parameter gepflegt werden, wie z.B. Name und 
+Anschrift der Hebamme, dann kann die Arbeit wirklich losgehen.
+
+Diese Parameter können direkt über die Konsole in der Datenbank geändert 
+werden, oder aber über die Parameterpflege im Programm. Dazu ist es notwendig
+\tinyHeb\/ zu starten. Man nimmt einen Webbrowser seiner Wahl\footnote{z.B. Firefox, Konqueror funktioniert nicht besonders gut} und ruft den Link
+\nolinkurl{http://localhost/tinyheb/hebamme.html} im Browser auf.
+Wenn alles funktioniert, bekommt man das Einstiegsbild (siehe Abbildung \vref{einstieg:fig}) zu sehen.
+%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=80mm]{einstieg}
+\caption{Einstiegsmenue in \emph{tinyHeb}\label{einstieg:fig}}
+\end{figure}
+%
+Die Parameter die die Hebamme betreffen, können über die Maske
+Angaben zur Hebamme gepflegt werden\footnote{Diese Maske steht erst seit
+Release 0.9.0 zur Verfügung}. In diese Maske gelangt man aus dem
+Hauptmenue über den Link \verb|Angaben| \verb|zur| \verb|Hebamme|.
+
+Alternativ können die relevanten Parameter auch in der Maske Parameter
+geändert werden.
+Über den Link \verb|weitere| \verb|Wartungspunkte| gelangt man in das 
+\tinyHeb\/ Wartungsmenue und von dort kommt man über den Link
+\verb|alle| \verb|Parameter| in die Maske Parameter, hier können
+Parameter neu erfasst, geändert und gelöscht werden. Eine genaue Beschreibung
+dazu findet sich im Kapitel \vref{parameter:kap}.
+Durch einen Klick auf den Knopf \texttt{Suchen}
+ werden alle vorhandenen Parameter
+angezeigt. Im konkreten Fall sind nur die Parameter von Interesse, die
+mit HEB beginnen. Um nur diese angezeigt zu bekommen, erfasst man im Feld
+\feld{Name} HEB -- alle anderen Felder müssen leer sein -- und klickt 
+in diesem Fenster auf den Knopf \knopf{Suchen}. Als Ergebniss sollte das Bild 
+aus Abbildung \vref{parameter:fig} erscheinen.
+%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=80mm]{parameter_HEB}
+\caption{Parameter Pflegemaske\label{parameter:fig}}
+\end{figure}
+%
+Die in Tabelle \ref{parametertabelle:tab} angegebenen Parameter 
+müssen angepasst werden.\\ 
+Dabei ist unbedingt darauf zu achten, dass
+die Parmeter Bezeichnung nicht aus Versehen geändert wird.
+\marginline{\Huge\bfseries!}%
+%
+\begin{table}[ht]
+\centering
+\begin{tabular}{|ll|}
+\firsthline
+\textbf{Parameter Bezeichnung}&\textbf{Beschreibung Parameter}\\
+HEB\_VORNAME&Vorname der Hebamme\\
+HEB\_NACHNAME&Nachname der Hebamme\\
+HEB\_STRASSE&Strasse der Anschrift der  Hebamme\\
+HEB\_PLZ&PLZ der Anschrift der Hebamme\\
+HEB\_ORT&Ort der Anschrift der Hebamme\\
+HEB\_IK&IK Nummer der Hebamme\\
+HEB\_Konto&Kontonummer zur Bankverbindung der Hebamme\\
+HEB\_BLZ&Bankleitzahl der Bankverbindung\\
+HEB\_NAMEBANK&Name der Bank\\
+HEB\_TEL&Telefonnummer der Hebamme\\
+HEB\_EMAIL&E-Mail Adresse der Hebamme im Format xy@provider.de\\
+HEB\_STNR&Steuernummer der Hebamme im Format 123/4567/891\\
+HEB\_TARIFKZ&Tarifkennzeichen: bundeseinheitlicher Tarif, West- oder\\
+& Ostgebührenordnung, möglich sind 00 für bundeseinheitlich, 24 für West,\\ &
+25 für Ost. Erfasst werden sollte immer 24 für West\\
+HEB\_BUNDESLAND&Bundesland der Hebamme, entweder NRW, Bayern, Hessen, Hamburg,\\
+& Rheinland-Pfalz, Thüringen, Sachsen, Sachsen-Anhalt, Niedersachsen,\\
+& Brandenburg oder Baden-Würtemberg\\
+HEB\_IK\_BELEG\_KKH&\index{Beleghebamme}IK Nummer des Krankenhauses, falls Beleghebamme\\
+\lasthline
+\end{tabular}
+\caption{Parameter\label{parametertabelle:tab}}
+\end{table}
+%
+\subsection{Feiertage}
+Im weitesten Sinne gehören auch Feiertage zu den Parametern. Damit
+diese korrekt bei Zuschlägen beachtet werden können, ist es notwendig
+sie zu erfassen.
+Wie schon bei den Parametern gelangt man aus dem Hauptmenue über den
+Link \verb|Feiertage| in die Erfassungsmaske der Feiertage. Hier sind,
+falls noch nicht vorhanden, alle Feiertage zu erfassen, für die man
+Rechnungen erstellen möchte\footnote{Besser ist es mehr als weniger
+Feiertage zu erfassen.}.
+\\
+Jetzt sollte alles Initialisiert sein und die Arbeit kann beginnen.
+Falls etwas nicht gehen sollte, freue ich mich auf eine Mail:
+thomas.baum@arcor.de
+
+\subsection{Logo}
+\index{Logo}
+Auch das Logo der Hebamme gehört im weitesten Sinne zu den Parametern.
+Wer möchte, dass ein Logo mit ausgedruckt wird, muss das Logo zunächst
+in das eps Dateiformat bringen\footnote{z.B. mit dem Programm ImageMagick}. 
+Die Logo Datei in den Dateinamen logo.eps
+umbenennen und im Verzeichnis \verb|rechnung| speichern. Danach wird auf
+jeder Rechnung das Logo mit angedruckt.
+
+
+\subsection{Gebührenordnung Baden-Württemberg}
+\index{Baden-Württemberg}
+\index{Gebührenordnung Baden-Württemberg|see{Baden-Württemberg}}
+Die Gebührenordnungen sind auch in den Parametern enthalten, dies gilt 
+insb. für die Gebührenordnung Baden-Württemberg. Diese Privat-Gebührenordnung 
+ist anders aufgebaut, als die der anderen Bundesländer. 
+Um diese Privat-Gebührenordnung zu nutzen ist ein zusätzlicher Schritt nötig;
+diese Gebührenordnung muss explizit in \tinyHeb\/ eingespielt werden.
+
+Im Verzeichnis \verb|DATA| befindet sich das Programm \verb|update.pl|,
+diese muss wie folgt aufgerufen werden:\\
+\verb|./update.pl --file=bw.sql|\footnote{unter Linux sind Root Rechte nötig, daher mit sudo update.pl --file=bw.sql aufrufen.}\\
+wenn das Einspielen der Daten erfolgreich durchgeführt werden konnte, wird
+dies entsprechend angezeigt:
+\begin{verbatim}
+Update erfolgreich durchgefuehrt,
+Bitte die ENTER Taste zum Beenden des Update druecken
+\end{verbatim}
+Sollte es zu Problemen kommen, gibt die Datei \verb|update.log| Hinweise
+darauf, was schief gegangen sein könnte.
+
+\include{kurzanleitung}
+
+\include{anleitung}
+
+\include{parameter}
+
+\include{anhang}
+
+\bibliography{quellen}
+\bibliographystyle{plain}
+
+\printindex
+%
+\end{document}

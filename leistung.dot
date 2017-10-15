@@ -1,0 +1,47 @@
+digraph Hebamme {
+	size="8,10";
+	page="8.5,11";
+	ratio=fill;
+	fontsize=12;
+	rankdir=LR;
+	compound=true;
+
+	subgraph cluster_leistungsart {
+		label=Leistungsart;
+		struct_leistungsart 
+			[shape=record,
+			 label="<id> ID | POSNR | BEZEICHNUNG | LEISTUNGSTYP | Einzelpreis | Prozent | Sonntag | NACHT | SAMSTAG | FUERZEIT | DAUER | ZWILLINGE | ZWEITESMAL | EINMALIG | BEGRUENDUNGSPFLICHT | ZUSATZGEBUEHREN1 | ZUSATZGEBUEHREN2 | ZUSATZGEBUEHREN3 | ZUSATZGEBUEHREN4 | gült_von | gült_bis | KBEZ "];
+	} 
+
+	subgraph cluster_stammdaten {
+		label=Stammdaten;
+		struct_stammdaten 
+			[shape=record,
+			 label="<id> ID | Vorname | Nachname | Geburtsdatum_Frau | Strasse | PLZ | Ort | Krankenversicherungsnummer | Krankenversicherungsnummer_gueltig | Versichertenstatus | <fkk> FK_Krankenkasse| Bundesland | Geburtsdatum_Kind | naechste Hebamme | Datum"];
+	}
+
+	subgraph cluster_kalender {
+		label=Kalender;
+		struct_kalender
+			[shape=record,
+			 label="Name | Bundesland | Datum"];
+	}
+
+	subgraph cluster_leistungsdb {
+		label=Leistungsdatenbank;
+		struct_leistungsdatenbank
+			[shape=record,
+			 label="<id> ID | <stid> ID | Begründung | Datum Erbringung | Uhrzeit Erbringung | Dauer Erbringung | Entfernung"];
+	}
+
+	subgraph cluster_krankenkassen {
+		label=Krankenkassen;
+		struct_krankenkassen
+			[shape=record,
+			 label="<id> ID | Name | Straße | PLZ | Ort | IK"];
+	}
+
+	struct_leistungsdatenbank:id -> struct_leistungsart:id [label="1:1",lhead=cluster_leistungsart];
+	struct_leistungsdatenbank:stid -> struct_stammdaten:id [label="n:1",lhead=cluster_stammdaten];
+	struct_stammdaten:fkk -> struct_krankenkassen:id [label="1:1",lhead=cluster_krankenkassen];
+}

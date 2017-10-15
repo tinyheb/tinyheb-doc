@@ -1,2 +1,2 @@
 # tinyheb-doc
-documentation for tinyHeb
+Documentation for tinyHeb

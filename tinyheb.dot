@@ -1,0 +1,57 @@
+digraph tinyHeb {
+	size="7.5,9";
+	page="8.5,11";
+	ratio=compress;
+	fontsize=10;
+	rankdir=LR;
+	compound=true;
+
+	subgraph cluster_leistungsart {
+		label=Leistungsart;
+		struct_leistungsart 
+			[shape=record,
+			 label="<id> ID | <posnr> POSNR | BEZEICHNUNG | LEISTUNGSTYP | Einzelpreis | Prozent | Sonntag | NACHT | SAMSTAG | FUERZEIT | DAUER | ZWILLINGE | ZWEITESMAL | EINMALIG | BEGRUENDUNGSPFLICHT | ZUSATZGEBUEHREN1 | ZUSATZGEBUEHREN2 | ZUSATZGEBUEHREN3 | ZUSATZGEBUEHREN4 | GUELT_VON | GUELT_BIS | KBEZ "];
+	} 
+
+	subgraph cluster_leistungsdaten {
+		label=Leistungsdaten;
+		struct_leistungsdaten 
+			[shape=record,
+			 label="<id> ID | <posnr> POSNR | <fk_stammdaten> FK_STAMMDATEN | BEGRUENDUNG | DATUM | ZEIT_VON | ZEIT_BIS | ENTFERNUNG_T | ENTFERNUNG_N | ANZAHL_FRAUEN | PREIS | <rechnungsnr> RECHNUNGSNR | STATUS "];
+	}
+
+	subgraph cluster_stammdaten {
+		label=Stammdaten;
+		struct_stammdaten
+			[shape=record,
+			 label="<id> ID | VORNAME | NACHNAME | GEBURTSDATUM_FRAU | STRASSE | PLZ | ORT | TEL | ENTFERNUNG | KRANKENVERSICHERUNGSNUMMER | KRANKENVERSICHERUNGSNUMMER_GUELTIG | VERSICHERTENSTATUS | <ik> IK | BUNDESLAND | GEBURTSDATUM_KIND | NAECHSTE_HEBAMME | BEGRUENDUNG_NICHT_NAECHSTE_HEBAMME | DATUM "];
+	}
+
+	subgraph cluster_krankenkassen {
+		label=Krankenkassen;
+		struct_krankenkassen
+			[shape=record,
+			 label="<ik> IK | KNAME | NAME | STRASSE | PLZ_HAUS | PLZ_POST | POSTFACH | ASP_NAME | ASP_TEL | ZIK | BEMERKUNG "];
+	}
+
+	subgraph cluster_rechnung {
+		label=Rechnung;	
+		struct_rechnung
+			[shape=record,
+			 label="<rechnungsnr> RECHNUNGSNUMMER | RECH_DATUM | MAHN_DATUM | ZAHL_DATUM | BETRAG | STATUS | BETRAGGEZ | <fk_stammdaten> FK_STAMMDATEN | <ik> IK | RECH "];
+	}
+
+
+	struct_stammdaten:id -> struct_leistungsdaten:fk_stammdaten [label="1:n",lhead=cluster_leistungsdaten];
+
+	struct_krankenkassen:ik -> struct_stammdaten:ik [label="1:n",lhead=cluster_stammdaten];
+
+	struct_krankenkassen:ik -> struct_rechnung:ik [label="1:n",lhead=cluster_rechnung];
+
+	struct_rechnung:rechnungsnr -> struct_leistungsdaten:rechnungsnr [label="1:n",lhead=cluster_leistungsdaten];
+
+	struct_stammdaten:id -> struct_rechnung:fk_stammdaten [label="1:n",lhead=cluster_rechnung];
+
+	struct_leistungsart:posnr -> struct_leistungsdaten:posnr [label="1:n",lhead=cluster_leistungsdaten];
+
+}

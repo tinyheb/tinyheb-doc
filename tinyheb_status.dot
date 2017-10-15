@@ -1,0 +1,48 @@
+digraph tinyheb_status {
+	size="7.5,9";
+	page="8.5,11";
+	ratio=compress;
+	fontsize=08;
+/*	rankdir=LR; */
+	compound=true;
+
+
+subgraph Rechnungsposten {
+	in_Bearbeitung -> Rechnung [label="entgueltig Drucken"];
+	Rechnung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Rechnung -> erledigt [label="Betrag gezahlt"];
+	Rechnung -> Mahnung [label="Mahnung\nfertigstellen"];
+	Teilzahlung -> Mahnung [label="Mahnung\nfertigstellen"];
+	Mahnung -> Mahnung [label="Mahnung\nfertigstellen"];
+	Mahnung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Mahnung -> erledigt [label="Betrag gezahlt"];
+	Teilzahlung -> erledigt [label="Betrag gezahlt"];
+	Rechnung -> Edi_Rechnung [label="Rechnung elek. verschickt"];
+	Edi_Rechnung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Edi_Rechnung -> erledigt [label="Betrag gezahlt"];
+	Teilzahlung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+}
+
+/*
+
+subgraph Rechnungsposten_neu {
+
+	in_Bearbeitung -> Rechnung [label="entgueltig Drucken"];
+	Rechnung -> elektronische_Rechnung_moeglich [label="falls elek. Rech. moeglich"];
+	elektronische_Rechnung_moeglich -> Edi_Rechnung [label="Rechnung elek. verschickt"];
+	Rechnung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Rechnung -> erledigt [label="Betrag gezahlt"];
+	Teilzahlung -> erledigt [label="Betrag gezahlt"];
+	Teilzahlung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Edi_Rechnung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Edi_Rechnung -> erledigt [label="Betrag gezahlt"];
+	Edi_Rechnung -> in_Bearbeitung [label="Storno"];
+	Rechnung -> in_Bearbeitung [label="Storno"];
+	Mahnung -> Mahnung [label="Mahnung\nfertigstellen"];
+	Rechnung -> Mahnung [label="Mahnung\nfertigstellen"];
+	Teilzahlung -> Mahnung [label="Mahnung\nfertigstellen"];
+	Mahnung -> Teilzahlung [label="Betrag nicht\nkomplett gezahlt"];
+	Mahnung -> erledigt [label="Betrag gezahlt"];
+}
+*/
+}
