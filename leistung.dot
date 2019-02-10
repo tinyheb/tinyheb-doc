@@ -10,7 +10,7 @@ digraph Hebamme {
 		label=Leistungsart;
 		struct_leistungsart 
 			[shape=record,
-			 label="<id> ID | POSNR | BEZEICHNUNG | LEISTUNGSTYP | Einzelpreis | Prozent | Sonntag | NACHT | SAMSTAG | FUERZEIT | DAUER | ZWILLINGE | ZWEITESMAL | EINMALIG | BEGRUENDUNGSPFLICHT | ZUSATZGEBUEHREN1 | ZUSATZGEBUEHREN2 | ZUSATZGEBUEHREN3 | ZUSATZGEBUEHREN4 | gült_von | gült_bis | KBEZ "];
+			 label="<id> ID | POSNR | BEZEICHNUNG | LEISTUNGSTYP | Einzelpreis | Prozent | Sonntag | NACHT | SAMSTAG | FUERZEIT | DAUER | ZWILLINGE | ZWEITESMAL | EINMALIG | BEGRUENDUNGSPFLICHT | ZUSATZGEBUEHREN1 | ZUSATZGEBUEHREN2 | ZUSATZGEBUEHREN3 | ZUSATZGEBUEHREN4 | gÃ¼lt_von | gÃ¼lt_bis | KBEZ "];
 	} 
 
 	subgraph cluster_stammdaten {
@@ -31,14 +31,14 @@ digraph Hebamme {
 		label=Leistungsdatenbank;
 		struct_leistungsdatenbank
 			[shape=record,
-			 label="<id> ID | <stid> ID | Begründung | Datum Erbringung | Uhrzeit Erbringung | Dauer Erbringung | Entfernung"];
+			 label="<id> ID | <stid> ID | BegrÃ¼ndung | Datum Erbringung | Uhrzeit Erbringung | Dauer Erbringung | Entfernung"];
 	}
 
 	subgraph cluster_krankenkassen {
 		label=Krankenkassen;
 		struct_krankenkassen
 			[shape=record,
-			 label="<id> ID | Name | Straße | PLZ | Ort | IK"];
+			 label="<id> ID | Name | StraÃŸe | PLZ | Ort | IK"];
 	}
 
 	struct_leistungsdatenbank:id -> struct_leistungsart:id [label="1:1",lhead=cluster_leistungsart];
